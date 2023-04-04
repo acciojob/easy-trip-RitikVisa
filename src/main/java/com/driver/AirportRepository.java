@@ -202,9 +202,9 @@ public class AirportRepository {
 
         int count = 0;
         if (!flightPassengerMap.isEmpty()) {
-            for (Map.Entry<Integer, List<Integer>> entry : flightPassengerMap.entrySet()) {
+            for (Map.Entry<Integer, List<Passenger>> entry : flightPassengerMap.entrySet()) {
 
-                if (entry.getValue().contains(passengerId)) {
+                if (entry.getValue().contains(passengerMap.get(passengerId))) {
                     count++;
                 }
 
