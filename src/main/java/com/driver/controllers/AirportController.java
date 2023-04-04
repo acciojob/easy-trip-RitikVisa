@@ -64,7 +64,7 @@ AirportService service = new AirportService() ;
         // Otherwise return a "SUCCESS" message
         // and also cancel the ticket that passenger had booked earlier on the given flightId
 
-        return null;
+        return service.cancelATicket(flightId,passengerId);
     }
 
     @GetMapping("/get-largest-aiport")

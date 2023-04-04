@@ -169,15 +169,32 @@ public class AirportRepository {
 
         int numOfpeople = 0;
 
-        if (!airportNameFlightDb.get(airportName).isEmpty()) {
-            List<Flight> f = airportNameFlightDb.get(airportName);
-            for (Flight flight : f) {
-                if (date == flight.getFlightDate()) {
-                    int fid = flight.getFlightId();
+
+           List<Flight> flights= airportNameFlightDb.get(airportName);
+           if(flights.isEmpty()){
+               return 0;
+           }
+
+        for (Flight f : flights) {
+                if (date == f.getFlightDate()) {
+                    int fid = f.getFlightId();
                     numOfpeople += flightPassengerMap.get(fid).size();
                 }
             }
-        }
+
+
+
+
+
+//        if (!airportNameFlightDb.get(airportName).isEmpty()) {
+//            List<Flight> f = airportNameFlightDb.get(airportName);
+//            for (Flight flight : f) {
+//                if (date == flight.getFlightDate()) {
+//                    int fid = flight.getFlightId();
+//                    numOfpeople += flightPassengerMap.get(fid).size();
+//                }
+//            }
+//        }
 
 
         return numOfpeople;
@@ -201,7 +218,7 @@ public class AirportRepository {
     public int countOfBookingsDoneByPassengerAllCombined(Integer passengerId) {
 
         int count = 0;
-        if (!flightPassengerMap.isEmpty()) {
+
             for (Map.Entry<Integer, List<Passenger>> entry : flightPassengerMap.entrySet()) {
 
                 if (entry.getValue().contains(passengerMap.get(passengerId))) {
@@ -209,7 +226,7 @@ public class AirportRepository {
                 }
 
             }
-        }
+
         //Tell the count of flight bookings done by a passenger: This will tell the total count of flight bookings done by a passenger :
         return count;
     }
@@ -247,11 +264,15 @@ public class AirportRepository {
         //Calculate the total revenue that a flight could have
         //That is of all the passengers that have booked a flight till now and then calculate the revenue
         //Revenue will also decrease if some passenger cancels the flight
+        int ans = 3000;
+        int bookedpassengers = flightPassengerMap.get(flightId).size()-1;
+        if(bookedpassengers < 0){
+            return 0;
+        }
 
-        int bookedpassengers = flightPassengerMap.get(flightId).size();
+        ans += bookedpassengers * 3050;
 
-
-        return bookedpassengers * 3050;
+        return ans;
 
     }
 }
