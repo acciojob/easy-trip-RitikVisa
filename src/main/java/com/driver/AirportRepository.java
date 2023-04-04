@@ -170,31 +170,25 @@ public class AirportRepository {
         int numOfpeople = 0;
 
 
-           List<Flight> flights= airportNameFlightDb.get(airportName);
-           if(flights.isEmpty()){
-               return 0;
-           }
+        List<Flight> flightList = new ArrayList<>();
+        flightList =airportNameFlightDb.get(airportName);
 
-        for (Flight f : flights) {
-                if (date == f.getFlightDate()) {
-                    int fid = f.getFlightId();
-                    numOfpeople += flightPassengerMap.get(fid).size();
+        if(flightList.size()>0){
+
+            for(Flight f : flightList){
+
+
+                if(date.equals(f.getFlightDate())){
+
+                    if(f.getFromCity().equals(airportDb.get(airportName).getCity()) || f.getToCity().equals(airportDb.get(airportName).getCity())){
+                        numOfpeople +=  flightPassengerMap.get(f.getFlightId()).size();
+                    }
+
                 }
             }
-
-
-
-
-
-//        if (!airportNameFlightDb.get(airportName).isEmpty()) {
-//            List<Flight> f = airportNameFlightDb.get(airportName);
-//            for (Flight flight : f) {
-//                if (date == flight.getFlightDate()) {
-//                    int fid = flight.getFlightId();
-//                    numOfpeople += flightPassengerMap.get(fid).size();
-//                }
-//            }
-//        }
+        }else{
+            return 0;
+        }
 
 
         return numOfpeople;
@@ -217,15 +211,22 @@ public class AirportRepository {
 
     public int countOfBookingsDoneByPassengerAllCombined(Integer passengerId) {
 
-        int count = 0;
 
-            for (Map.Entry<Integer, List<Passenger>> entry : flightPassengerMap.entrySet()) {
+        //passsenger id
+//        flightPassengerMap
+        int count =0;
 
-                if (entry.getValue().contains(passengerMap.get(passengerId))) {
+        Passenger p = new Passenger();
+        p= passengerMap.get(passengerId);
+
+        for (Map.Entry<Integer,List<Passenger>> entry : flightPassengerMap.entrySet()) {
+            List<Passenger> passengerList = entry.getValue();
+            for(Passenger pp : passengerList){
+                if(pp.getPassengerId()==passengerId){
                     count++;
                 }
-
             }
+        }
 
         //Tell the count of flight bookings done by a passenger: This will tell the total count of flight bookings done by a passenger :
         return count;
