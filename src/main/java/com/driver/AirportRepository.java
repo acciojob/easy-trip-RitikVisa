@@ -29,11 +29,17 @@ public class AirportRepository {
     private int max = -1;
 
     public AirportRepository() {
-        this.airportDb = airportDb;
-        this.flightMap = flightMap;
-        this.passengerMap = passengerMap;
-        this.flightPassengerMap = flightPassengerMap;
-        this.airportNameFlightDb = airportNameFlightDb;
+//        this.airportDb = airportDb;
+//        this.flightMap = flightMap;
+//        this.passengerMap = passengerMap;
+//        this.flightPassengerMap = flightPassengerMap;
+//        this.airportNameFlightDb = airportNameFlightDb;
+        this.airportDb = new HashMap<String, Airport>();
+        this.flightMap = new HashMap<Integer,Flight>();
+        this.passengerMap = new HashMap<Integer, Passenger>();
+        this.airportNameFlightDb= new HashMap<String, List<Flight>>();
+        this.flightPassengerMap = new HashMap<Integer, List<Integer>>();
+
     }
 
     public String addAirport(Airport airport) {
