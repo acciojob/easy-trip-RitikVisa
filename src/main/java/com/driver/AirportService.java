@@ -19,8 +19,8 @@ public class AirportService {
 
     AirportRepository repository = new AirportRepository();
     public String addAirport(Airport airport){
-      repository.addAirport(airport);
-        return "SUCCESS";
+
+        return repository.addAirport(airport);
     }
     public String addFlight( Flight flight){
 

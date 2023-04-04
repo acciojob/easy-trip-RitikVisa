@@ -15,16 +15,16 @@ import java.util.*;
 public class AirportRepository {
 
     //airport hashmap contains name and airport object
-    Map<String, Airport> airportDb = new HashMap<>();
-    Map<Integer, Flight> flightMap = new HashMap<>();
-    Map<Integer, Passenger> passengerMap = new HashMap<>();
+    private Map<String, Airport> airportDb = new HashMap<>();
+    private Map<Integer, Flight> flightMap = new HashMap<>();
+    private Map<Integer, Passenger> passengerMap = new HashMap<>();
 
-    Map<Integer, List<Integer>> flightPassengerMap = new HashMap<>();
+    private Map<Integer, List<Integer>> flightPassengerMap = new HashMap<>();
 
-    Map<String,List<Flight>> airportNameFlightDb= new HashMap<>();
+    private Map<String,List<Flight>> airportNameFlightDb= new HashMap<>();
 
-    public String largestAirport = "";
-    public int max= -1;
+    private String largestAirport = "";
+    private int max= -1;
 
 
     public String addAirport(Airport airport) {
