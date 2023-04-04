@@ -17,16 +17,15 @@ import java.util.*;
 public class AirportRepository {
 
     //airport hashmap contains name and airport object
-    private Map<String, Airport> airportDb = new HashMap<>();
-    private Map<Integer, Flight> flightMap = new HashMap<>();
-    private Map<Integer, Passenger> passengerMap = new HashMap<>();
+    private HashMap<String, Airport> airportDb = new HashMap<>();
+    private HashMap<Integer, Flight> flightMap = new HashMap<>();
+    private HashMap<Integer, Passenger> passengerMap = new HashMap<>();
 
-    private Map<Integer, List<Integer>> flightPassengerMap = new HashMap<>();
+    private HashMap<Integer, List<Passenger>> flightPassengerMap = new HashMap<>();
 
-    private Map<String, List<Flight>> airportNameFlightDb = new HashMap<>();
+    private HashMap<String, List<Flight>> airportNameFlightDb = new HashMap<>();
 
-    private String largestAirport = "";
-    private int max = -1;
+
 
     public AirportRepository() {
 //        this.airportDb = airportDb;
@@ -38,7 +37,7 @@ public class AirportRepository {
         this.flightMap = new HashMap<Integer,Flight>();
         this.passengerMap = new HashMap<Integer, Passenger>();
         this.airportNameFlightDb= new HashMap<String, List<Flight>>();
-        this.flightPassengerMap = new HashMap<Integer, List<Integer>>();
+        this.flightPassengerMap = new HashMap<Integer, List<Passenger>>();
 
     }
 
@@ -58,7 +57,7 @@ public class AirportRepository {
 //        }
 
 
-        airportDb.put(airport.getAirportName(), airport);
+        this.airportDb.put(airport.getAirportName(), airport);
 
 
         return "SUCCESS";
@@ -66,39 +65,37 @@ public class AirportRepository {
 
     public String addFlight(Flight flight) {
 
-        flightMap.put(flight.getFlightId(), flight);
+        this.flightMap.put(flight.getFlightId(), flight);
 
         return "SUCCESS";
     }
 
     public String addPassenger(Passenger passenger) {
-        passengerMap.put(passenger.getPassengerId(), passenger);
+        this.passengerMap.put(passenger.getPassengerId(), passenger);
 
         return "SUCCESS";
     }
 
     public String bookATicket(Integer flightId, Integer passengerId) {
 
-        int maxcapacity = flightMap.get(flightId).getMaxCapacity();
+        List<Passenger> passengerIds = new ArrayList<>();
 
-        List<Integer> passengerIds = new ArrayList<>();
+        passengerIds.add(passengerMap.get(passengerId));
 
-        if (!flightPassengerMap.containsKey(flightId)) {
-
-            flightPassengerMap.put(flightId, passengerIds);
-            flightPassengerMap.get(flightId).add(passengerId);
-
-
+        if(!flightPassengerMap.containsKey(flightId)){
+            flightPassengerMap.put(flightId,passengerIds);
             return "SUCCESS";
-        } else if (flightPassengerMap.containsKey(flightId)) {
-
-            if (!flightPassengerMap.get(flightId).contains(passengerId)) {
-                flightPassengerMap.get(flightId).add(passengerId);
-                return "SUCCESS";
+        }else{
+            if(flightPassengerMap.get(flightId).contains(passengerMap.get(passengerId))){
+                return "FAILURE";
+            }else{
+             flightPassengerMap.get(flightId).add(passengerMap.get(passengerId));
+             return "SUCCESS";
             }
-        }
 
-        return "FAILURE";
+
+
+        }
 
 
 //      City fcity =  flightMap.get(flightId).getFromCity();
@@ -125,8 +122,8 @@ public class AirportRepository {
 
 
         if (flightPassengerMap.containsKey(flightId)) {
-            if (flightPassengerMap.get(flightId).contains(passengerId)) {
-                flightPassengerMap.get(flightId).remove(passengerId);
+            if (flightPassengerMap.get(flightId).contains(passengerMap.get(passengerId))) {
+                flightPassengerMap.get(flightId).remove(passengerMap.get(passengerId));
                 return "SUCCESS";
             } else {
                 return "FAILURE";
@@ -140,7 +137,7 @@ public class AirportRepository {
     public String getLargestAirportName() {
 
 
-        return largestAirport;
+        return "nuuuu";
     }
 
     public double getShortestDurationOfPossibleBetweenTwoCities(City fromCity, City toCity) {
@@ -152,17 +149,12 @@ public class AirportRepository {
         // Creating an ArrayList of values
         ArrayList<Flight> flightList = new ArrayList<>(values);
 
-
-        int i = 0;
-        while (!flightList.isEmpty()) {
-
-            if (flightList.get(i).getFromCity().equals(fromCity) && flightList.get(i).getToCity().equals(toCity)) {
-                if (shortesttime > flightList.get(i).getDuration()) {
-                    shortesttime = flightList.get(i).getDuration();
+        for(Flight f : flightList){
+            if(f.getFromCity().equals(fromCity) &&  f.getToCity().equals(toCity) ){
+                if (shortesttime > f.getDuration()) {
+                    shortesttime = f.getDuration();
                 }
-                i++;
             }
-
         }
 
         if (shortesttime == Double.MAX_VALUE) {
@@ -228,17 +220,21 @@ public class AirportRepository {
         //return null incase the flightId is invalid or you are not able to find the airportName
 
 
+
         for (Map.Entry<String, List<Flight>> entry : airportNameFlightDb.entrySet()) {
 
             String airportname = entry.getKey();
             Airport airport = airportDb.get(airportname);
 
+            Flight f = flightMap.get(flightId);
 
-            if (entry.getValue().contains(flightId)) {
+            if (entry.getValue().contains(f)) {
                 if (flightMap.get(flightId).getFromCity().equals(airport.getCity())) {
                     return airportname;
                 }
 
+            }else{
+                return null;
             }
         }
 
