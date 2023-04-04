@@ -1,4 +1,4 @@
-package com.driver;
+package com.driver.controllers;
 
 import com.driver.model.Airport;
 import com.driver.model.City;
