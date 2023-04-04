@@ -1,6 +1,7 @@
 package com.driver.controllers;
 
 
+import com.driver.AirportService;
 import com.driver.model.Airport;
 import com.driver.model.City;
 import com.driver.model.Flight;
@@ -14,7 +15,7 @@ import java.util.Date;
 public class AirportController {
 
 @Autowired
-    AirportService service ;
+AirportService service ;
     @PostMapping("/add_airport")
     public String addAirport(@RequestBody Airport airport){
 

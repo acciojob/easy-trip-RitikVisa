@@ -1,4 +1,4 @@
-package com.driver.controllers;
+package com.driver;
 
 import com.driver.model.Airport;
 import com.driver.model.City;
@@ -7,11 +7,13 @@ import com.driver.model.Passenger;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.*;
 
 @Repository
+
 public class AirportRepository {
 
     //airport hashmap contains name and airport object
@@ -26,6 +28,13 @@ public class AirportRepository {
     private String largestAirport = "";
     private int max = -1;
 
+    public AirportRepository() {
+        this.airportDb = airportDb;
+        this.flightMap = flightMap;
+        this.passengerMap = passengerMap;
+        this.flightPassengerMap = flightPassengerMap;
+        this.airportNameFlightDb = airportNameFlightDb;
+    }
 
     public String addAirport(Airport airport) {
 
